@@ -12,7 +12,7 @@ import org.apache.logging.log4j.Logger;
 public class ShutdownHook extends Thread {
 
     private final Logger LOGGER = LogManager.getLogger();
-    
+
     @Override
     public void run() {
         Application application = Application.getInstance();

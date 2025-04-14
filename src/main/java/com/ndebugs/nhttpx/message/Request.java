@@ -13,13 +13,13 @@ import jakarta.xml.bind.annotation.XmlElementWrapper;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Request {
-    
+
     @XmlElement
     private String url;
-    
+
     @XmlElement
     private HTTPMethod method;
-    
+
     @XmlElementWrapper(name = "params")
     @XmlElement(name = "param")
     private List<Parameter> parameters;

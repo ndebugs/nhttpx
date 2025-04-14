@@ -2,6 +2,7 @@ package com.ndebugs.nhttpx.task;
 
 import com.ndebugs.nhttpx.io.WritableRow;
 import com.ndebugs.nhttpx.message.Message;
+import java.io.IOException;
 import java.io.OutputStreamWriter;
 import org.apache.commons.lang.StringEscapeUtils;
 
@@ -17,7 +18,7 @@ public class FileWriterTask extends MessageTask {
 
     public FileWriterTask(WritableRow row, Message message) {
         super(message);
-        
+
         this.row = row;
     }
 
@@ -51,16 +52,16 @@ public class FileWriterTask extends MessageTask {
             String[] fields = row.getFields();
             for (int i = 0; i < fields.length; i++) {
                 String field = fields[i];
-                
+
                 if (i > 0) {
                     writer.write(',');
                 }
                 StringEscapeUtils.escapeCsv(writer, field);
             }
             writer.append('\n');
-            
+
             listener.onComplete(this);
-        } catch (Exception e) {
+        } catch (IOException e) {
             listener.onError(this, e);
         }
     }

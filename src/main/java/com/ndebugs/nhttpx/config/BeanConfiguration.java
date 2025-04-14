@@ -17,12 +17,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ComponentScan("com.ndebugs.nhttpx")
 public class BeanConfiguration {
-    
+
     @Bean
     public JAXBContext jaxbContext() throws JAXBException {
         return JAXBContext.newInstance(MessageSettings.class);
     }
-    
+
     @Bean
     public Unmarshaller unmarshaller(@Autowired JAXBContext context) throws JAXBException {
         Unmarshaller unmarshaller = context.createUnmarshaller();

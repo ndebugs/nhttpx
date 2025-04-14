@@ -18,12 +18,12 @@ import org.apache.logging.log4j.Logger;
  * @author van de Bugs <van.de.bugs@gmail.com>
  */
 public class HTTPConnection {
-    
+
     private final Logger LOGGER = LogManager.getLogger();
-    
+
     private HttpURLConnection connection;
     private int bufferSize = 8192;
-    
+
     public int getBufferSize() {
         return bufferSize;
     }
@@ -31,7 +31,7 @@ public class HTTPConnection {
     public void setBufferSize(int bufferSize) {
         this.bufferSize = bufferSize;
     }
-    
+
     public int open(String url, Map<String, String> params, HTTPMethod method) throws IOException {
         String postQuery = null;
         if (params != null && !params.isEmpty()) {
@@ -42,26 +42,26 @@ public class HTTPConnection {
                 postQuery = query;
             }
         }
-        
+
         URL obj = new URL(url);
         LOGGER.info("Request: [{}] {}", method, url);
-        
+
         connection = (HttpURLConnection) obj.openConnection();
         connection.setRequestMethod(method.toString());
         if (postQuery != null) {
             connection.setDoOutput(true);
-            
-            OutputStream os = connection.getOutputStream();
-            os.write(postQuery.getBytes());
-            os.flush();
-            os.close();
+
+            try (OutputStream os = connection.getOutputStream()) {
+                os.write(postQuery.getBytes());
+                os.flush();
+            }
         }
-        
+
         int responseCode = connection.getResponseCode();
         LOGGER.info("Response code: {}", responseCode);
         return responseCode;
     }
-    
+
     public byte[] getResponseBytes() throws IOException {
         InputStream in = connection.getInputStream();
         ByteArrayOutputStream out = new ByteArrayOutputStream(in.available());
@@ -71,7 +71,7 @@ public class HTTPConnection {
             out.write(buffer, 0, length);
         }
         in.close();
-        
+
         return out.toByteArray();
     }
 

@@ -19,7 +19,7 @@ public class SchedulerTask extends Task {
     public void setListener(SchedulerTaskListener listener) {
         this.listener = listener;
     }
-    
+
     @Override
     public void run() {
         listener.onComplete(this);

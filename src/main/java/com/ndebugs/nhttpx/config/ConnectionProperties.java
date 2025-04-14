@@ -5,7 +5,7 @@ package com.ndebugs.nhttpx.config;
  * @author van de Bugs <van.de.bugs@gmail.com>
  */
 public class ConnectionProperties {
-    
+
     private String responseCodePattern;
     private int maxErrorRepeat;
 

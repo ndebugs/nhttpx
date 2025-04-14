@@ -14,7 +14,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "message-settings")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class MessageSettings {
-    
+
     @XmlElementWrapper
     @XmlElement(name = "message")
     private List<Message> messages;

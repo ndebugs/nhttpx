@@ -11,10 +11,10 @@ import jakarta.xml.bind.annotation.XmlValue;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Parameter {
-    
+
     @XmlAttribute
     private String key;
-    
+
     @XmlValue
     private String value;
 

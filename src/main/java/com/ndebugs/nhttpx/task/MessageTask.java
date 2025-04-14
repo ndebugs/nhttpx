@@ -7,10 +7,10 @@ import com.ndebugs.nhttpx.message.Message;
  * @author van de Bugs <van.de.bugs@gmail.com>
  */
 public abstract class MessageTask extends Task {
-    
+
     public static final int POSITION_FIRST_SECTION = 1;
     public static final int POSITION_LAST_SECTION = 2;
-    
+
     private Message message;
     private int position;
 
@@ -33,15 +33,15 @@ public abstract class MessageTask extends Task {
     public void setPosition(int position) {
         this.position = position;
     }
-    
+
     public void addPosition(int position) {
         this.position |= position;
     }
-    
+
     public void removePosition(int position) {
         this.position &= ~position;
     }
-    
+
     public boolean hasPosition(int position) {
         return (this.position & position) == position;
     }

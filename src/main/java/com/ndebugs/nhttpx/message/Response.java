@@ -11,10 +11,10 @@ import jakarta.xml.bind.annotation.XmlElementWrapper;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Response {
-    
+
     @XmlElement(name = "data-field")
     private String dataField;
-    
+
     @XmlElementWrapper
     @XmlElement(name = "field")
     private String[] fields;

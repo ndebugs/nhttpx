@@ -28,7 +28,7 @@ public class RequestTask extends MessageTask {
 
     public RequestTask(VelocityContext context, Message message) {
         super(message);
-        
+
         this.context = context;
     }
 
@@ -79,12 +79,12 @@ public class RequestTask extends MessageTask {
     public void setHasNext(boolean hasNext) {
         this.hasNext = hasNext;
     }
-    
+
     @Override
     public void run() {
         Request request = getMessage().getRequest();
-        
-        boolean error = false;
+
+        boolean error;
         int errorCount = maxErrorRepeat;
         do {
             try {
@@ -105,19 +105,19 @@ public class RequestTask extends MessageTask {
                 }
             } catch (Exception e) {
                 error = true;
-                
+
                 listener.onError(this, e);
             }
         } while (error && --errorCount > 0);
     }
-    
+
     private Map<String, String> toParameterMap(VelocityContext context, List<Parameter> params) {
         Map<String, String> paramMap = new LinkedHashMap<>();
         if (params != null) {
             for (Parameter param : params) {
                 StringWriter writer = new StringWriter();
                 Velocity.evaluate(context, writer, getMessage().getName(), param.getValue());
-                
+
                 paramMap.put(param.getKey(), writer.toString());
             }
         }

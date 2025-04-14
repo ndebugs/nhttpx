@@ -5,7 +5,7 @@ package com.ndebugs.nhttpx.config;
  * @author van de Bugs <van.de.bugs@gmail.com>
  */
 public class ApplicationProperties {
-    
+
     private boolean allowDuplicate;
     private boolean trimmed;
     private int processTimeout;

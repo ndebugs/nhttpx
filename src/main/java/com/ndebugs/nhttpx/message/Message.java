@@ -10,16 +10,16 @@ import jakarta.xml.bind.annotation.XmlElement;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Message {
-    
+
     @XmlElement
     private String name;
-    
+
     @XmlElement
     private Request request;
-    
+
     @XmlElement
     private Response response;
-    
+
     public String getName() {
         return name;
     }

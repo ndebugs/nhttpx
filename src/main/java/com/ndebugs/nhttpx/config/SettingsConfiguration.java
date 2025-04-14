@@ -17,13 +17,13 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class SettingsConfiguration {
-    
+
     @Autowired
     private Unmarshaller unmarshaller;
-    
+
     @Autowired
     private ApplicationProperties applicationProperties;
-    
+
     @Bean
     public MessageSettings messageSettings() throws IOException, JAXBException {
         File file = new File("config", applicationProperties.getSettingsFile());
@@ -31,7 +31,7 @@ public class SettingsConfiguration {
         MessageSettings messageSettings = (MessageSettings) unmarshaller.unmarshal(is);
 
         is.close();
-        
+
         return messageSettings;
     }
 }

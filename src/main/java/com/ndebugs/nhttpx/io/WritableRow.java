@@ -7,7 +7,7 @@ import java.util.Arrays;
  * @author van de Bugs <van.de.bugs@gmail.com>
  */
 public class WritableRow {
-    
+
     private String[] fields;
 
     public String[] getFields() {
@@ -23,7 +23,7 @@ public class WritableRow {
         if (this == obj) {
             return true;
         }
-        
+
         if (obj instanceof WritableRow) {
             WritableRow anotherObj = (WritableRow) obj;
             return Arrays.equals(fields, anotherObj.getFields());

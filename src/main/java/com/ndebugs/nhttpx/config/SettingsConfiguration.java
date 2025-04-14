@@ -27,10 +27,10 @@ public class SettingsConfiguration {
     @Bean
     public MessageSettings messageSettings() throws IOException, JAXBException {
         File file = new File("config", applicationProperties.getSettingsFile());
-        InputStream is = new FileInputStream(file);
-        MessageSettings messageSettings = (MessageSettings) unmarshaller.unmarshal(is);
-
-        is.close();
+        MessageSettings messageSettings;
+        try (InputStream is = new FileInputStream(file)) {
+            messageSettings = (MessageSettings) unmarshaller.unmarshal(is);
+        }
 
         return messageSettings;
     }

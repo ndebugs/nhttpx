@@ -63,14 +63,15 @@ public class HTTPConnection {
     }
 
     public byte[] getResponseBytes() throws IOException {
-        InputStream in = connection.getInputStream();
-        ByteArrayOutputStream out = new ByteArrayOutputStream(in.available());
-        int length;
-        byte[] buffer = new byte[bufferSize];
-        while ((length = in.read(buffer)) > -1) {
-            out.write(buffer, 0, length);
+        ByteArrayOutputStream out;
+        try (InputStream in = connection.getInputStream()) {
+            out = new ByteArrayOutputStream(in.available());
+            int length;
+            byte[] buffer = new byte[bufferSize];
+            while ((length = in.read(buffer)) > -1) {
+                out.write(buffer, 0, length);
+            }
         }
-        in.close();
 
         return out.toByteArray();
     }

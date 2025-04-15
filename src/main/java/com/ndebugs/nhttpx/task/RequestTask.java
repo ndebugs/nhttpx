@@ -10,6 +10,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 
@@ -17,6 +19,8 @@ import org.apache.velocity.app.Velocity;
  *
  * @author van de Bugs <van.de.bugs@gmail.com>
  */
+@Data
+@EqualsAndHashCode(callSuper = false)
 public class RequestTask extends MessageTask {
 
     private int id;
@@ -30,54 +34,6 @@ public class RequestTask extends MessageTask {
         super(message);
 
         this.context = context;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public VelocityContext getContext() {
-        return context;
-    }
-
-    public void setContext(VelocityContext context) {
-        this.context = context;
-    }
-
-    public RequestTaskListener getListener() {
-        return listener;
-    }
-
-    public void setListener(RequestTaskListener listener) {
-        this.listener = listener;
-    }
-
-    public String getResponseCodePattern() {
-        return responseCodePattern;
-    }
-
-    public void setResponseCodePattern(String responseCodePattern) {
-        this.responseCodePattern = responseCodePattern;
-    }
-
-    public int getMaxErrorRepeat() {
-        return maxErrorRepeat;
-    }
-
-    public void setMaxErrorRepeat(int maxErrorRepeat) {
-        this.maxErrorRepeat = maxErrorRepeat;
-    }
-
-    public boolean isHasNext() {
-        return hasNext;
-    }
-
-    public void setHasNext(boolean hasNext) {
-        this.hasNext = hasNext;
     }
 
     @Override

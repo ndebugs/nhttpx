@@ -1,11 +1,13 @@
 package com.ndebugs.nhttpx.io;
 
 import java.util.Arrays;
+import lombok.Data;
 
 /**
  *
  * @author van de Bugs <van.de.bugs@gmail.com>
  */
+@Data
 public class WritableRow {
 
     private String[] fields;

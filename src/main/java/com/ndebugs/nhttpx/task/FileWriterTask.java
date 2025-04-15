@@ -4,12 +4,16 @@ import com.ndebugs.nhttpx.io.WritableRow;
 import com.ndebugs.nhttpx.message.Message;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.apache.commons.lang.StringEscapeUtils;
 
 /**
  *
  * @author van de Bugs <van.de.bugs@gmail.com>
  */
+@Data
+@EqualsAndHashCode(callSuper = false)
 public class FileWriterTask extends MessageTask {
 
     private WritableRow row;
@@ -20,30 +24,6 @@ public class FileWriterTask extends MessageTask {
         super(message);
 
         this.row = row;
-    }
-
-    public WritableRow getRow() {
-        return row;
-    }
-
-    public void setRow(WritableRow row) {
-        this.row = row;
-    }
-
-    public OutputStreamWriter getWriter() {
-        return writer;
-    }
-
-    public void setWriter(OutputStreamWriter writer) {
-        this.writer = writer;
-    }
-
-    public FileWriterTaskListener getListener() {
-        return listener;
-    }
-
-    public void setListener(FileWriterTaskListener listener) {
-        this.listener = listener;
     }
 
     @Override

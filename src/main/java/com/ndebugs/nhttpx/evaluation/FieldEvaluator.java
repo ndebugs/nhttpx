@@ -2,6 +2,7 @@ package com.ndebugs.nhttpx.evaluation;
 
 import com.ndebugs.nhttpx.message.Message;
 import java.io.StringWriter;
+import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -10,6 +11,7 @@ import org.apache.velocity.app.Velocity;
  *
  * @author van de Bugs <van.de.bugs@gmail.com>
  */
+@Data
 public class FieldEvaluator {
 
     private final VelocityContext context;
@@ -20,22 +22,6 @@ public class FieldEvaluator {
     public FieldEvaluator(VelocityContext context, Message message) {
         this.context = context;
         this.message = message;
-    }
-
-    public VelocityContext getContext() {
-        return context;
-    }
-
-    public Message getMessage() {
-        return message;
-    }
-
-    public boolean isTrimmed() {
-        return trimmed;
-    }
-
-    public void setTrimmed(boolean trimmed) {
-        this.trimmed = trimmed;
     }
 
     public String evaluate(String field) {

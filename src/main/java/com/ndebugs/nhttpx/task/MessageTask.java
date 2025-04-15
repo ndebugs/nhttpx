@@ -1,11 +1,15 @@
 package com.ndebugs.nhttpx.task;
 
 import com.ndebugs.nhttpx.message.Message;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  *
  * @author van de Bugs <van.de.bugs@gmail.com>
  */
+@Data
+@EqualsAndHashCode(callSuper = false)
 public abstract class MessageTask extends Task {
 
     public static final int POSITION_FIRST_SECTION = 1;
@@ -16,22 +20,6 @@ public abstract class MessageTask extends Task {
 
     public MessageTask(Message message) {
         this.message = message;
-    }
-
-    public Message getMessage() {
-        return message;
-    }
-
-    public void setMessage(Message message) {
-        this.message = message;
-    }
-
-    public int getPosition() {
-        return position;
-    }
-
-    public void setPosition(int position) {
-        this.position = position;
     }
 
     public void addPosition(int position) {

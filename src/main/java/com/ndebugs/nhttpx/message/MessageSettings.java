@@ -6,6 +6,7 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElementWrapper;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import lombok.Data;
 
 /**
  *
@@ -13,17 +14,10 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name = "message-settings")
 @XmlAccessorType(XmlAccessType.FIELD)
+@Data
 public class MessageSettings {
 
     @XmlElementWrapper
     @XmlElement(name = "message")
     private List<Message> messages;
-
-    public List<Message> getMessages() {
-        return messages;
-    }
-
-    public void setMessages(List<Message> messages) {
-        this.messages = messages;
-    }
 }

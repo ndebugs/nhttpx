@@ -1,31 +1,44 @@
 package com.ndebugs.nhttpx.config;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+
 /**
  *
  * @author van de Bugs <van.de.bugs@gmail.com>
  */
+@Configuration
+@PropertySource(value = "file:application.properties", ignoreResourceNotFound = true)
 public class ApplicationProperties {
 
-    private boolean allowDuplicate;
-    private boolean trimmed;
-    private int processTimeout;
+    @Value("${settings.file:message-settings.xml}")
     private String settingsFile;
+
+    @Value("${process.timeout:10000}")
+    private int processTimeout;
+
+    @Value("${output.allowDuplicate:false}")
+    private boolean outputAllowDuplicate;
+
+    @Value("${output.trimmed:true}")
+    private boolean outputTrimmed;
+
+    @Value("${output.dir:out}")
     private String outputDir;
 
-    public boolean isAllowDuplicate() {
-        return allowDuplicate;
+    @Value("${connection.repeatOnError.max:2}")
+    private int connectionMaxErrorRepeat;
+
+    @Value("${connection.responseCode.pattern:200}")
+    private String connectionResponseCodePattern;
+
+    public String getSettingsFile() {
+        return settingsFile;
     }
 
-    public void setAllowDuplicate(boolean allowDuplicate) {
-        this.allowDuplicate = allowDuplicate;
-    }
-
-    public boolean isTrimmed() {
-        return trimmed;
-    }
-
-    public void setTrimmed(boolean trimmed) {
-        this.trimmed = trimmed;
+    public void setSettingsFile(String settingsFile) {
+        this.settingsFile = settingsFile;
     }
 
     public int getProcessTimeout() {
@@ -36,12 +49,20 @@ public class ApplicationProperties {
         this.processTimeout = processTimeout;
     }
 
-    public String getSettingsFile() {
-        return settingsFile;
+    public boolean isOutputAllowDuplicate() {
+        return outputAllowDuplicate;
     }
 
-    public void setSettingsFile(String settingsFile) {
-        this.settingsFile = settingsFile;
+    public void setOutputAllowDuplicate(boolean outputAllowDuplicate) {
+        this.outputAllowDuplicate = outputAllowDuplicate;
+    }
+
+    public boolean isOutputTrimmed() {
+        return outputTrimmed;
+    }
+
+    public void setOutputTrimmed(boolean outputTrimmed) {
+        this.outputTrimmed = outputTrimmed;
     }
 
     public String getOutputDir() {
@@ -50,5 +71,21 @@ public class ApplicationProperties {
 
     public void setOutputDir(String outputDir) {
         this.outputDir = outputDir;
+    }
+
+    public int getConnectionMaxErrorRepeat() {
+        return connectionMaxErrorRepeat;
+    }
+
+    public void setConnectionMaxErrorRepeat(int connectionMaxErrorRepeat) {
+        this.connectionMaxErrorRepeat = connectionMaxErrorRepeat;
+    }
+
+    public String getConnectionResponseCodePattern() {
+        return connectionResponseCodePattern;
+    }
+
+    public void setConnectionResponseCodePattern(String connectionResponseCodePattern) {
+        this.connectionResponseCodePattern = connectionResponseCodePattern;
     }
 }

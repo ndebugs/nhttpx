@@ -1,7 +1,6 @@
 package com.ndebugs.nhttpx.manager;
 
 import com.ndebugs.nhttpx.config.ApplicationProperties;
-import com.ndebugs.nhttpx.config.ConnectionProperties;
 import com.ndebugs.nhttpx.evaluation.FieldEvaluator;
 import com.ndebugs.nhttpx.io.WritableRow;
 import com.ndebugs.nhttpx.message.Message;
@@ -37,9 +36,6 @@ public class ProcessManager implements RequestTaskListener {
     private ApplicationProperties applicationProperties;
 
     @Autowired
-    private ConnectionProperties connectionProperties;
-
-    @Autowired
     private MessageSettings messageSettings;
 
     @Autowired
@@ -70,8 +66,8 @@ public class ProcessManager implements RequestTaskListener {
         task.setId(index);
         task.setPosition(position);
         task.setListener(this);
-        task.setResponseCodePattern(connectionProperties.getResponseCodePattern());
-        task.setMaxErrorRepeat(connectionProperties.getMaxErrorRepeat());
+        task.setResponseCodePattern(applicationProperties.getConnectionResponseCodePattern());
+        task.setMaxErrorRepeat(applicationProperties.getConnectionMaxErrorRepeat());
         task.setHasNext(index + 1 < messages.size());
 
         executorManager.execute(task);
@@ -106,14 +102,14 @@ public class ProcessManager implements RequestTaskListener {
             subContext.put(CONTEXT_DATA, data);
 
             FieldEvaluator evaluator = new FieldEvaluator(subContext, message);
-            evaluator.setTrimmed(applicationProperties.isTrimmed());
+            evaluator.setTrimmed(applicationProperties.isOutputTrimmed());
 
             String[] fields = evaluator.evaluateAll(response.getFields());
 
             WritableRow row = new WritableRow();
             row.setFields(fields);
 
-            if (applicationProperties.isAllowDuplicate() || !rowSet.contains(row)) {
+            if (applicationProperties.isOutputAllowDuplicate() || !rowSet.contains(row)) {
                 LOGGER.debug("Data: {}", row);
 
                 int position = makePosition(i, datas.size());

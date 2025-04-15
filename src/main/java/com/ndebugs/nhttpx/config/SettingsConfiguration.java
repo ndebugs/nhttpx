@@ -26,7 +26,7 @@ public class SettingsConfiguration {
 
     @Bean
     public MessageSettings messageSettings() throws IOException, JAXBException {
-        File file = new File("config", applicationProperties.getSettingsFile());
+        File file = new File(applicationProperties.getSettingsFile());
         MessageSettings messageSettings;
         try (InputStream is = new FileInputStream(file)) {
             messageSettings = (MessageSettings) unmarshaller.unmarshal(is);

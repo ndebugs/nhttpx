@@ -68,14 +68,6 @@
     </dependencies>
     
     <build>
-        <resources>
-            <resource> 
-                <directory>${basedir}/config</directory>
-                <excludes>
-                    <exclude>**</exclude>
-                </excludes>
-            </resource>
-        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

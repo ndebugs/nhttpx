@@ -1,7 +1,7 @@
 package com.ndebugs.nhttpx.manager;
 
 import com.ndebugs.nhttpx.config.ApplicationProperties;
-import com.ndebugs.nhttpx.evaluation.FieldEvaluator;
+import com.ndebugs.nhttpx.evaluation.StringEvaluator;
 import com.ndebugs.nhttpx.io.WritableRow;
 import com.ndebugs.nhttpx.message.Message;
 import com.ndebugs.nhttpx.message.MessageSettings;
@@ -101,13 +101,13 @@ public class ProcessManager implements RequestTaskListener {
             subContext.put(CONTEXT_PARENT_DATA, parentData);
             subContext.put(CONTEXT_DATA, data);
 
-            FieldEvaluator evaluator = new FieldEvaluator(subContext, message);
+            StringEvaluator evaluator = new StringEvaluator(subContext, message);
             evaluator.setTrimmed(applicationProperties.isOutputTrimmed());
 
-            String[] fields = evaluator.evaluateAll(response.getFields());
+            String[] values = evaluator.evaluateAll(response.getFields());
 
             WritableRow row = new WritableRow();
-            row.setFields(fields);
+            row.setValues(values);
 
             if (applicationProperties.isOutputAllowDuplicate() || !rowSet.contains(row)) {
                 LOGGER.debug("Data: {}", row);

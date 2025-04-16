@@ -29,9 +29,9 @@ public class FileWriterTask extends MessageTask {
     @Override
     public void run() {
         try {
-            String[] fields = row.getFields();
-            for (int i = 0; i < fields.length; i++) {
-                String field = fields[i];
+            String[] values = row.getValues();
+            for (int i = 0; i < values.length; i++) {
+                String field = values[i];
 
                 if (i > 0) {
                     writer.write(',');

@@ -12,23 +12,23 @@ import org.apache.velocity.app.Velocity;
  * @author van de Bugs <van.de.bugs@gmail.com>
  */
 @Data
-public class FieldEvaluator {
+public class StringEvaluator {
 
     private final VelocityContext context;
     private final Message message;
 
     private boolean trimmed;
 
-    public FieldEvaluator(VelocityContext context, Message message) {
+    public StringEvaluator(VelocityContext context, Message message) {
         this.context = context;
         this.message = message;
     }
 
-    public String evaluate(String field) {
+    public String evaluate(String value) {
         String name = message.getName();
 
         StringWriter stringWriter = new StringWriter();
-        Velocity.evaluate(context, stringWriter, name, field);
+        Velocity.evaluate(context, stringWriter, name, value);
 
         String result = stringWriter.toString();
         if (trimmed) {
@@ -38,11 +38,11 @@ public class FieldEvaluator {
         }
     }
 
-    public String[] evaluateAll(String[] fields) {
-        String[] result = new String[fields.length];
-        for (int i = 0; i < fields.length; i++) {
-            String field = fields[i];
-            result[i] = evaluate(field);
+    public String[] evaluateAll(String[] values) {
+        String[] result = new String[values.length];
+        for (int i = 0; i < values.length; i++) {
+            String value = values[i];
+            result[i] = evaluate(value);
         }
 
         return result;

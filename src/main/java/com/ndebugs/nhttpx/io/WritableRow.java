@@ -10,15 +10,7 @@ import lombok.Data;
 @Data
 public class WritableRow {
 
-    private String[] fields;
-
-    public String[] getFields() {
-        return fields;
-    }
-
-    public void setFields(String[] fields) {
-        this.fields = fields;
-    }
+    private String[] values;
 
     @Override
     public boolean equals(Object obj) {
@@ -28,7 +20,7 @@ public class WritableRow {
 
         if (obj instanceof WritableRow) {
             WritableRow anotherObj = (WritableRow) obj;
-            return Arrays.equals(fields, anotherObj.getFields());
+            return Arrays.equals(values, anotherObj.getValues());
         }
         return false;
     }
@@ -36,12 +28,12 @@ public class WritableRow {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 97 * hash + Arrays.deepHashCode(this.fields);
+        hash = 97 * hash + Arrays.deepHashCode(this.values);
         return hash;
     }
 
     @Override
     public String toString() {
-        return Arrays.toString(fields);
+        return Arrays.toString(values);
     }
 }

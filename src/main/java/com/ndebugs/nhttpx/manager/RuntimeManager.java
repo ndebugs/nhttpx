@@ -55,7 +55,7 @@ public class RuntimeManager implements SchedulerTaskListener {
         SchedulerTask task = new SchedulerTask(this);
         ScheduledExecutorService service = getSchedulerService();
         currentFuture = service.schedule(task,
-                applicationProperties.getProcessTimeout(), TimeUnit.MILLISECONDS);
+                applicationProperties.getRuntimeDelay(), TimeUnit.MILLISECONDS);
     }
 
     public void stopSchedulerService() {

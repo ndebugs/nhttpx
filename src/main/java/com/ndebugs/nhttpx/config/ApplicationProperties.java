@@ -17,7 +17,7 @@ public class ApplicationProperties {
     @Value("${settings.file:message-settings.xml}")
     private String settingsFile;
 
-    @Value("${process.timeout:10000}")
+    @Value("${process.timeout:1000}")
     private int processTimeout;
 
     @Value("${output.allowDuplicate:false}")

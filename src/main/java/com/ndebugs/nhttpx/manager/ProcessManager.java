@@ -104,7 +104,7 @@ public class ProcessManager implements RequestTaskListener {
             StringEvaluator evaluator = new StringEvaluator(subContext, message);
             evaluator.setTrimmed(applicationProperties.isOutputTrimmed());
 
-            String[] values = evaluator.evaluateAll(response.getFields());
+            String[] values = evaluator.evaluateAll(response.getValues());
 
             WritableRow row = new WritableRow();
             row.setValues(values);
@@ -139,8 +139,8 @@ public class ProcessManager implements RequestTaskListener {
             Message message = task.getMessage();
             Response response = message.getResponse();
 
-            List subDatas = (List) (StringUtils.isNotBlank(response.getDataField())
-                    ? PropertyUtils.getProperty(data, response.getDataField()) : data);
+            List subDatas = (List) (StringUtils.isNotBlank(response.getDataSource())
+                    ? PropertyUtils.getProperty(data, response.getDataSource()) : data);
 
             if (subDatas != null && !subDatas.isEmpty()) {
                 doFetch(task, subDatas);

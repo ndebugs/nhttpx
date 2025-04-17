@@ -14,10 +14,10 @@ import lombok.Data;
 @Data
 public class Response {
 
-    @XmlElement(name = "data-field")
-    private String dataField;
+    @XmlElement(name = "data-source")
+    private String dataSource;
 
     @XmlElementWrapper
-    @XmlElement(name = "field")
-    private String[] fields;
+    @XmlElement(name = "value")
+    private String[] values;
 }

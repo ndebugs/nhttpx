@@ -11,17 +11,17 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.ndebugs.nhttpx.task.FileWriterTaskListener;
+import lombok.extern.log4j.Log4j2;
 
 /**
  *
  * @author van de Bugs <van.de.bugs@gmail.com>
  */
 @Component
+@Log4j2
 public class FileWriterManager implements FileWriterTaskListener {
 
     @Autowired
@@ -30,7 +30,6 @@ public class FileWriterManager implements FileWriterTaskListener {
     @Autowired
     private ExecutorManager executorManager;
 
-    private final Logger LOGGER = LogManager.getLogger();
     private final Map<String, FileWriterWrapper> fileWriterMap = new HashMap<>();
 
     public File getFile(Message message) throws IOException {
@@ -59,11 +58,11 @@ public class FileWriterManager implements FileWriterTaskListener {
 
             fileWriterMap.put(name, fileWriter);
 
-            LOGGER.info("Output stream for '{}' opened.", name);
+            log.info("Output stream for '{}' opened.", name);
         } else if (fileWriter.isClosed()) {
             fileWriter.open(false);
 
-            LOGGER.info("Output stream for '{}' reopened.", name);
+            log.info("Output stream for '{}' reopened.", name);
         }
 
         return fileWriter.getWriter();
@@ -103,7 +102,7 @@ public class FileWriterManager implements FileWriterTaskListener {
 
             fileWriter.close();
 
-            LOGGER.info("Output stream for '{}' closed.", message.getName());
+            log.info("Output stream for '{}' closed.", message.getName());
         }
     }
 
@@ -119,7 +118,7 @@ public class FileWriterManager implements FileWriterTaskListener {
             }
         }
 
-        LOGGER.info("All output stream closed.");
+        log.info("All output stream closed.");
     }
 
     @Override
@@ -135,6 +134,6 @@ public class FileWriterManager implements FileWriterTaskListener {
 
     @Override
     public void onError(MessageTask task, Exception e) {
-        LOGGER.catching(e);
+        log.catching(e);
     }
 }

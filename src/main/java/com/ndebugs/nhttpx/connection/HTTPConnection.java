@@ -10,16 +10,14 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 /**
  *
  * @author van de Bugs <van.de.bugs@gmail.com>
  */
+@Log4j2
 public class HTTPConnection {
-
-    private final Logger LOGGER = LogManager.getLogger();
 
     private HttpURLConnection connection;
     private int bufferSize = 8192;
@@ -44,7 +42,7 @@ public class HTTPConnection {
         }
 
         URL obj = new URL(url);
-        LOGGER.info("Request: [{}] {}", method, url);
+        log.info("Request: [{}] {}", method, url);
 
         connection = (HttpURLConnection) obj.openConnection();
         connection.setRequestMethod(method.toString());
@@ -58,7 +56,7 @@ public class HTTPConnection {
         }
 
         int responseCode = connection.getResponseCode();
-        LOGGER.info("Response code: {}", responseCode);
+        log.info("Response code: {}", responseCode);
         return responseCode;
     }
 

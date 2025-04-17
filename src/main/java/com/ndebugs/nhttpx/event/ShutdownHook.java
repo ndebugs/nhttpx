@@ -2,16 +2,14 @@ package com.ndebugs.nhttpx.event;
 
 import com.ndebugs.nhttpx.Application;
 import java.io.IOException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 /**
  *
  * @author van de Bugs <van.de.bugs@gmail.com>
  */
+@Log4j2
 public class ShutdownHook extends Thread {
-
-    private final Logger LOGGER = LogManager.getLogger();
 
     @Override
     public void run() {
@@ -19,7 +17,7 @@ public class ShutdownHook extends Thread {
         try {
             application.stop();
         } catch (IOException e) {
-            LOGGER.catching(e);
+            log.catching(e);
         }
     }
 }

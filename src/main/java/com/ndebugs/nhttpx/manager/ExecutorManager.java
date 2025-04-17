@@ -9,8 +9,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,12 +18,12 @@ import org.springframework.stereotype.Component;
  * @author van de Bugs <van.de.bugs@gmail.com>
  */
 @Component
+@Log4j2
 public class ExecutorManager {
 
     @Autowired
     private RuntimeManager runtimeManager;
 
-    private final Logger LOGGER = LogManager.getLogger();
     private final Map<String, ExecutorService> fileServiceMap = new HashMap<>();
     private final Map<ExecutorService, Future> futureMap = new HashMap<>();
 
@@ -34,7 +33,7 @@ public class ExecutorManager {
         if (connectionService == null) {
             connectionService = Executors.newSingleThreadExecutor();
 
-            LOGGER.info("Connection service started.");
+            log.info("Connection service started.");
         }
         return connectionService;
     }
@@ -47,7 +46,7 @@ public class ExecutorManager {
             service = Executors.newSingleThreadExecutor();
             fileServiceMap.put(key, service);
 
-            LOGGER.info("File Writer service for '{}' started.", key);
+            log.info("File Writer service for '{}' started.", key);
         }
         return service;
     }
@@ -99,7 +98,7 @@ public class ExecutorManager {
             connectionService.shutdownNow();
             connectionService = null;
 
-            LOGGER.info("Connection service stopped.");
+            log.info("Connection service stopped.");
         }
     }
 
@@ -110,7 +109,7 @@ public class ExecutorManager {
         if (service != null) {
             service.shutdownNow();
 
-            LOGGER.info("File Writer service for '{}' stopped.", key);
+            log.info("File Writer service for '{}' stopped.", key);
         }
     }
 
@@ -120,6 +119,6 @@ public class ExecutorManager {
         }
         fileServiceMap.clear();
 
-        LOGGER.info("All File Writer service stopped.");
+        log.info("All File Writer service stopped.");
     }
 }

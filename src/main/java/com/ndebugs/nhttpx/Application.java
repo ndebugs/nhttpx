@@ -4,8 +4,7 @@ import com.ndebugs.nhttpx.event.ShutdownHook;
 import com.ndebugs.nhttpx.config.BeanConfiguration;
 import com.ndebugs.nhttpx.manager.ProcessManager;
 import java.io.IOException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -13,12 +12,12 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  *
  * @author van de Bugs <van.de.bugs@gmail.com>
  */
+@Log4j2
 public class Application {
 
     private static Application application;
 
     private final ApplicationContext context;
-    private final Logger LOGGER = LogManager.getLogger();
 
     private Application(ApplicationContext context) {
         this.context = context;
@@ -54,7 +53,7 @@ public class Application {
         try {
             application.start();
         } catch (Exception e) {
-            application.LOGGER.catching(e);
+            Application.log.catching(e);
 
             System.exit(0);
         }

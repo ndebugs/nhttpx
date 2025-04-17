@@ -14,10 +14,9 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.apache.velocity.VelocityContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,6 +26,7 @@ import org.springframework.stereotype.Component;
  * @author van de Bugs <van.de.bugs@gmail.com>
  */
 @Component
+@Log4j2
 public class ProcessManager implements RequestTaskListener {
 
     private static final String CONTEXT_PARENT_DATA = "parent";
@@ -43,8 +43,6 @@ public class ProcessManager implements RequestTaskListener {
 
     @Autowired
     private FileWriterManager fileWriterManager;
-
-    private final Logger LOGGER = LogManager.getLogger();
 
     public void doProcess() throws Exception {
         List<Message> messages = messageSettings.getMessages();
@@ -110,7 +108,7 @@ public class ProcessManager implements RequestTaskListener {
             row.setValues(values);
 
             if (applicationProperties.isOutputAllowDuplicate() || !rowSet.contains(row)) {
-                LOGGER.debug("Data: {}", row);
+                log.debug("Data: {}", row);
 
                 int position = makePosition(i, datas.size());
                 int writerPosition = position;
@@ -123,7 +121,7 @@ public class ProcessManager implements RequestTaskListener {
 
                 rowSet.add(row);
             } else {
-                LOGGER.warn("Duplicate data: {}", row);
+                log.warn("Duplicate data: {}", row);
             }
         }
     }
@@ -148,7 +146,7 @@ public class ProcessManager implements RequestTaskListener {
                 VelocityContext context = task.getContext();
                 DataWrapper parentData = (DataWrapper) context.get(CONTEXT_PARENT_DATA);
 
-                LOGGER.warn("No data from parent: {}", parentData);
+                log.warn("No data from parent: {}", parentData);
             }
         } catch (Exception e) {
             onError(task, e);
@@ -157,6 +155,6 @@ public class ProcessManager implements RequestTaskListener {
 
     @Override
     public void onError(MessageTask task, Exception e) {
-        LOGGER.catching(e);
+        log.catching(e);
     }
 }

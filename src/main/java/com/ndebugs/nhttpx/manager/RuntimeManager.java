@@ -11,8 +11,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +20,7 @@ import org.springframework.stereotype.Component;
  * @author van de Bugs <van.de.bugs@gmail.com>
  */
 @Component
+@Log4j2
 public class RuntimeManager implements SchedulerTaskListener {
 
     @Autowired
@@ -35,8 +35,6 @@ public class RuntimeManager implements SchedulerTaskListener {
     @Autowired
     private FileWriterManager fileWriterManager;
 
-    private final Logger LOGGER = LogManager.getLogger();
-
     private ScheduledExecutorService schedulerService;
     private ScheduledFuture currentFuture;
 
@@ -44,7 +42,7 @@ public class RuntimeManager implements SchedulerTaskListener {
         if (schedulerService == null) {
             schedulerService = Executors.newSingleThreadScheduledExecutor();
 
-            LOGGER.info("Scheduler service started.");
+            log.info("Scheduler service started.");
         }
         return schedulerService;
     }
@@ -65,13 +63,13 @@ public class RuntimeManager implements SchedulerTaskListener {
             schedulerService.shutdownNow();
             schedulerService = null;
 
-            LOGGER.info("Scheduler service stopped.");
+            log.info("Scheduler service stopped.");
         }
     }
 
     @Override
     public void onComplete(SchedulerTask task) {
-        LOGGER.info("Scheduler service running.");
+        log.info("Scheduler service running.");
 
         boolean isRunning = false;
         try {
@@ -85,7 +83,7 @@ public class RuntimeManager implements SchedulerTaskListener {
                 }
             }
         } catch (IOException e) {
-            LOGGER.catching(e);
+            log.catching(e);
         }
 
         ExecutorStatus status = executorManager.getConnectionStatus();

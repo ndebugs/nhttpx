@@ -103,7 +103,7 @@ An enum value: `GET` or `POST`.
 
 **request** (`request`): Request configuration.
 
-response** (`response`): Response configuration.
+**response** (`response`): Response configuration.
 
 ### `request`
 #### Fields

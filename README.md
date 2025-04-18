@@ -1,3 +1,5 @@
+# Nested HTTP Extractor
+
 This is a tool to collect nested data from JSON APIs.
 
 # Configuration
@@ -212,4 +214,10 @@ response** (`response`): Response configuration.
 2,22,Child 2.2
 2,23,Child 2.3
 
+```
+
+# Running The App
+Make sure you have at least JRE 8 installed, then execute this command:
+```
+java -jar <executable_file>.jar
 ```

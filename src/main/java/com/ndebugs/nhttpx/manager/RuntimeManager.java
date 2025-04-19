@@ -49,7 +49,7 @@ public class RuntimeManager implements SchedulerTaskListener {
 
     public synchronized void rescheduleTimeout() {
         if (currentFuture != null) {
-            currentFuture.cancel(false);
+            currentFuture.cancel(true);
         }
 
         SchedulerTask task = new SchedulerTask(this);

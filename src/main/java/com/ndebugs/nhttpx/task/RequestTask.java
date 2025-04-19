@@ -5,6 +5,8 @@ import com.ndebugs.nhttpx.message.Message;
 import com.ndebugs.nhttpx.message.Parameter;
 import com.ndebugs.nhttpx.message.Request;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ndebugs.nhttpx.connection.HTTPMethod;
+import java.io.IOException;
 import java.io.StringWriter;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -12,6 +14,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.extern.log4j.Log4j2;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 
@@ -21,13 +24,14 @@ import org.apache.velocity.app.Velocity;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
+@Log4j2
 public class RequestTask extends MessageTask {
 
     private int id;
     private VelocityContext context;
     private RequestTaskListener listener;
     private String responseCodePattern;
-    private int maxErrorRepeat;
+    private int errorAttempts;
     private boolean hasNext;
 
     public RequestTask(VelocityContext context, Message message) {
@@ -39,17 +43,24 @@ public class RequestTask extends MessageTask {
     @Override
     public void run() {
         Request request = getMessage().getRequest();
+        HTTPConnection connection = new HTTPConnection();
+
+        StringWriter urlWriter = new StringWriter();
+        Velocity.evaluate(context, urlWriter, getMessage().getName(), request.getUrl());
+        String url = urlWriter.toString();
+
+        Map<String, String> params = toParameterMap(context, request.getParameters());
+        HTTPMethod method = request.getMethod();
 
         boolean error;
-        int errorCount = maxErrorRepeat;
+        int errorCount = 0;
         do {
             try {
-                StringWriter urlWriter = new StringWriter();
-                Velocity.evaluate(context, urlWriter, getMessage().getName(), request.getUrl());
+                log.info("Request: [{}] {}", method, url);
 
-                Map<String, String> params = toParameterMap(context, request.getParameters());
-                HTTPConnection connection = new HTTPConnection();
-                int code = connection.open(urlWriter.toString(), params, request.getMethod());
+                int code = connection.open(url, params, method);
+                log.info("Request: [{}] {}\nResponse code: {}", method, url, code);
+
                 if (Pattern.matches(responseCodePattern, Integer.toString(code))) {
                     ObjectMapper mapper = new ObjectMapper();
                     Object value = mapper.readValue(connection.getResponseBytes(), Object.class);
@@ -59,12 +70,14 @@ public class RequestTask extends MessageTask {
                 } else {
                     error = true;
                 }
-            } catch (Exception e) {
+            } catch (IOException e) {
+                log.error("Request: [{}] {} ({})", request.getMethod(), url, errorCount);
+
                 error = true;
 
                 listener.onError(this, e);
             }
-        } while (error && --errorCount > 0);
+        } while (error && ++errorCount < errorAttempts);
     }
 
     private Map<String, String> toParameterMap(VelocityContext context, List<Parameter> params) {

@@ -17,8 +17,11 @@ public class ApplicationProperties {
     @Value("${settings.file:message-settings.xml}")
     private String settingsFile;
 
-    @Value("${runtime.delay:1000}")
-    private int runtimeDelay;
+    @Value("${process.timeout:1000}")
+    private int processTimeout;
+
+    @Value("${output.dir:out}")
+    private String outputDir;
 
     @Value("${output.allowDuplicate:false}")
     private boolean outputAllowDuplicate;
@@ -26,12 +29,12 @@ public class ApplicationProperties {
     @Value("${output.trimmed:true}")
     private boolean outputTrimmed;
 
-    @Value("${output.dir:out}")
-    private String outputDir;
+    @Value("${request.poolSize:5}")
+    private int requestPoolSize;
 
-    @Value("${connection.repeatOnError.max:2}")
-    private int connectionMaxErrorRepeat;
+    @Value("${request.errorAttempts:2}")
+    private int requestErrorAttempts;
 
-    @Value("${connection.responseCode.pattern:200}")
-    private String connectionResponseCodePattern;
+    @Value("${response.codePattern:200}")
+    private String responseCodePattern;
 }

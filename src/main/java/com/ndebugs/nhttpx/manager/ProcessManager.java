@@ -64,8 +64,8 @@ public class ProcessManager implements RequestTaskListener {
         task.setId(index);
         task.setPosition(position);
         task.setListener(this);
-        task.setResponseCodePattern(applicationProperties.getConnectionResponseCodePattern());
-        task.setMaxErrorRepeat(applicationProperties.getConnectionMaxErrorRepeat());
+        task.setResponseCodePattern(applicationProperties.getResponseCodePattern());
+        task.setErrorAttempts(applicationProperties.getRequestErrorAttempts());
         task.setHasNext(index + 1 < messages.size());
 
         executorManager.execute(task);

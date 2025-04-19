@@ -1,5 +1,6 @@
 package com.ndebugs.nhttpx.manager;
 
+import com.ndebugs.nhttpx.config.ApplicationProperties;
 import com.ndebugs.nhttpx.message.Message;
 import com.ndebugs.nhttpx.task.FileWriterTask;
 import com.ndebugs.nhttpx.task.MessageTask;
@@ -22,6 +23,9 @@ import org.springframework.stereotype.Component;
 public class ExecutorManager {
 
     @Autowired
+    private ApplicationProperties applicationProperties;
+
+    @Autowired
     private RuntimeManager runtimeManager;
 
     private final Map<String, ExecutorService> fileServiceMap = new HashMap<>();
@@ -31,7 +35,7 @@ public class ExecutorManager {
 
     public ExecutorService getConnectionService() {
         if (connectionService == null) {
-            connectionService = Executors.newSingleThreadExecutor();
+            connectionService = Executors.newFixedThreadPool(applicationProperties.getRequestPoolSize());
 
             log.info("Connection service started.");
         }

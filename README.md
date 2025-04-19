@@ -12,12 +12,17 @@ The `application.properties` file defines application runtime settings. Create t
 
 Path to the XML file of [message settings](#message-settings).
 
-### `runtime.delay`
+### `process.timeout`
 **Type**: `integer`
 
 **Default**: `1000`
 
-Runtime delay in milliseconds to check for idle processes.
+Timeout in milliseconds for idle process.
+
+### `output.dir`
+**Default**: `out`
+
+Directory to store output files.
 
 ### `output.allowDuplicate`
 **Type**: `boolean`
@@ -33,19 +38,21 @@ Whether to allow duplicate output entries.
 
 Whether to trim whitespace from output values.
 
-### `output.dir`
-**Default**: `out`
+### `request.poolSize`
+**Type**: `integer`
 
-Directory to store output files.
+**Default**: `5`
 
-### `connection.repeatOnError.max`
+Number of threads to process requests.
+
+### `request.errorAttempts`
 **Type**: `integer`
 
 **Default**: `2`
 
-Maximum number of retry attempts on connection failure.
+Maximum number of retry attempts on request failure.
 
-### `connection.responseCode.pattern`
+### `response.codePattern`
 **Default**: `200`
 
 Regular expression pattern to match HTTP response codes for successful requests.

@@ -6,17 +6,16 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
-import lombok.extern.log4j.Log4j2;
 
 /**
  *
  * @author van de Bugs <van.de.bugs@gmail.com>
  */
-@Log4j2
 public class HTTPConnection {
 
     private HttpURLConnection connection;
@@ -41,9 +40,7 @@ public class HTTPConnection {
             }
         }
 
-        URL obj = new URL(url);
-        log.info("Request: [{}] {}", method, url);
-
+        URL obj = URI.create(url).toURL();
         connection = (HttpURLConnection) obj.openConnection();
         connection.setRequestMethod(method.toString());
         if (postQuery != null) {
@@ -55,9 +52,7 @@ public class HTTPConnection {
             }
         }
 
-        int responseCode = connection.getResponseCode();
-        log.info("Response code: {}", responseCode);
-        return responseCode;
+        return connection.getResponseCode();
     }
 
     public byte[] getResponseBytes() throws IOException {

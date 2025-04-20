@@ -5,7 +5,9 @@ import com.ndebugs.nhttpx.message.Message;
 import com.ndebugs.nhttpx.task.FileWriterTask;
 import com.ndebugs.nhttpx.task.MessageTask;
 import com.ndebugs.nhttpx.task.RequestTask;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -29,7 +31,7 @@ public class ExecutorManager {
     private RuntimeManager runtimeManager;
 
     private final Map<String, ExecutorService> fileServiceMap = new HashMap<>();
-    private final Map<ExecutorService, Future> futureMap = new HashMap<>();
+    private final Map<ExecutorService, List<Future>> futureMap = new HashMap<>();
 
     private ExecutorService connectionService;
 
@@ -57,7 +59,15 @@ public class ExecutorManager {
 
     private void execute(ExecutorService service, MessageTask task) {
         synchronized (futureMap) {
-            futureMap.put(service, service.submit(task));
+            List<Future> futures = futureMap.get(service);
+            if (futures == null) {
+                futures = new ArrayList<>();
+                futureMap.put(service, futures);
+            } else {
+                futures.removeIf(t -> t.isDone());
+            }
+
+            futures.add(service.submit(task));
         }
 
         runtimeManager.rescheduleTimeout();
@@ -74,16 +84,17 @@ public class ExecutorManager {
     }
 
     private ExecutorStatus getStatus(ExecutorService service) {
-        ExecutorStatus status = null;
         if (service != null) {
             synchronized (futureMap) {
-                Future future = futureMap.get(service);
-                if (future != null) {
-                    status = !future.isDone() ? ExecutorStatus.ACTIVE : ExecutorStatus.IDLE;
+                List<Future> futures = futureMap.get(service);
+                if (futures != null) {
+                    return futures.stream().anyMatch(t -> !t.isDone())
+                            ? ExecutorStatus.ACTIVE : ExecutorStatus.IDLE;
                 }
             }
         }
-        return status != null ? status : ExecutorStatus.INACTIVE;
+
+        return ExecutorStatus.INACTIVE;
     }
 
     public ExecutorStatus getConnectionStatus() {

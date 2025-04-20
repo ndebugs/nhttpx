@@ -111,8 +111,7 @@ public class ProcessManager implements RequestTaskListener {
                 log.debug("Data: {}", row);
 
                 int position = makePosition(i, datas.size());
-                int writerPosition = position;
-                fileWriterManager.write(row, message, writerPosition);
+                fileWriterManager.write(row, message, position);
 
                 if (task.isHasNext()) {
                     DataWrapper nextParent = new DataWrapper(parentData, data);

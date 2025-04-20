@@ -56,10 +56,10 @@ public class RequestTask extends MessageTask {
         int errorCount = 0;
         do {
             try {
-                log.info("Request: [{}] {}", method, url);
+                log.info("Request: [{}] {} ({})", method, url, errorCount);
 
                 int code = connection.open(url, params, method);
-                log.info("Request: [{}] {}\nResponse code: {}", method, url, code);
+                log.info("Request: [{}] {} ({})\nResponse: {}", method, url, errorCount, code);
 
                 if (Pattern.matches(responseCodePattern, Integer.toString(code))) {
                     ObjectMapper mapper = new ObjectMapper();
@@ -77,7 +77,7 @@ public class RequestTask extends MessageTask {
 
                 listener.onError(this, e);
             }
-        } while (error && ++errorCount < errorAttempts);
+        } while (error && errorCount++ < errorAttempts);
     }
 
     private Map<String, String> toParameterMap(VelocityContext context, List<Parameter> params) {
